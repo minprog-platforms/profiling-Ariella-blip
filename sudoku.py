@@ -46,17 +46,16 @@ class Sudoku:
 
     def options_at(self, x: int, y: int) -> Iterable[int]:
         """Returns all possible values (options) at x,y."""
-        options = {1, 2, 3, 4, 5, 6, 7, 8, 9}
 
         # Get the index of the block based from x,y
         block_index = (y // 3) * 3 + x // 3
 
-        all_values = set(self.row_values(y)
-                         + self.column_values(x)
-                         + self.block_values(block_index))
-        options = list(options - all_values)
+        options = ({1, 2, 3, 4, 5, 6, 7, 8, 9}
+                   - set(self.row_values(y))
+                   - set(self.column_values(x))
+                   - set(self.block_values(block_index)))
 
-        return options
+        return list(options)
 
     def next_empty_index(self) -> tuple[int, int]:
         """
@@ -107,13 +106,12 @@ class Sudoku:
         Returns True if and only if all rows, columns and blocks contain
         only the numbers 1 through 9. False otherwise.
         """
-        values_options = {1, 2, 3, 4, 5, 6, 7, 8, 9}
-
         for i in range(9):
-            total_values = set(self.column_values(i)
-                       + self.row_values(i)
-                       + self.block_values(i))
-            if len(values_options - total_values) == 0:
+            total_values = ({1, 2, 3, 4, 5, 6, 7, 8, 9}
+                            - set(self.column_values(i))
+                            - set(self.row_values(i))
+                            - set(self.block_values(i)))
+            if len(total_values) == 0:
                 return True
 
         return False
