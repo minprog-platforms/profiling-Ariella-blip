@@ -107,14 +107,13 @@ class Sudoku:
         Returns True if and only if all rows, columns and blocks contain
         only the numbers 1 through 9. False otherwise.
         """
-        values = {1, 2, 3, 4, 5, 6, 7, 8, 9}
+        values_options = {1, 2, 3, 4, 5, 6, 7, 8, 9}
 
         for i in range(9):
-            test = set(self.column_values(i)
+            total_values = set(self.column_values(i)
                        + self.row_values(i)
                        + self.block_values(i))
-            k = values - test
-            if len(k) == 0:
+            if len(values_options - total_values) == 0:
                 return True
 
         return False
