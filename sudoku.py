@@ -107,14 +107,14 @@ class Sudoku:
         only the numbers 1 through 9. False otherwise.
         """
         for i in range(9):
-            total_values = ({1, 2, 3, 4, 5, 6, 7, 8, 9}
-                            - set(self.column_values(i))
-                            - set(self.row_values(i))
-                            - set(self.block_values(i)))
-            if len(total_values) == 0:
-                return True
+            if len(set(self.column_values(i))) != 9:
+                return False
+            if len(set(self.row_values(i))) != 9:
+                return False
+            if len(set(self.block_values(i))) != 9:
+                return False
 
-        return False
+        return True
 
     def __str__(self) -> str:
         representation = ""
