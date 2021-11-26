@@ -30,7 +30,6 @@ class Sudoku:
         new_row = row[:x] + "0" + row[x + 1:]
         self._grid[y] = new_row
 
-
     def copy(self) -> "Sudoku":
         """Creates a deepcopy of this Sudoku puzzle."""
         return Sudoku(self._grid)
@@ -59,15 +58,14 @@ class Sudoku:
         If there is no empty spot, returns (-1,-1)
         """
         for y in range(9):
-                for x in range(9):
-                    if self.value_at(x, y) == 0:
-                        return x, y
+            for x in range(9):
+                if self.value_at(x, y) == 0:
+                    return x, y
 
         return -1, -1
 
     def row_values(self, i: int) -> Sequence[int]:
         """Returns all values at i-th row."""
-        values = []
 
         return list(map(int, self._grid[i]))
 
