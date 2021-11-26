@@ -1,21 +1,12 @@
-#######/
-# Naam: Ariella Hiele
-#
-# Minor Programmeren (Fulltime)
-#
-# Contains the improved program for solving a sudoku.
-#######/
-
-
 from __future__ import annotations
-from typing import Iterable
+from typing import Iterable, Sequence
 
 
 class Sudoku:
     """A mutable sudoku puzzle."""
 
     def __init__(self, puzzle: Iterable[Iterable]):
-        self._grid: list[str] = []
+        self._grid = []
 
         for puzzle_row in puzzle:
             row = ""
@@ -39,12 +30,17 @@ class Sudoku:
         new_row = row[:x] + "0" + row[x + 1:]
         self._grid[y] = new_row
 
+
+    def copy(self) -> "Sudoku":
+        """Creates a deepcopy of this Sudoku puzzle."""
+        return Sudoku(self._grid)
+
     def value_at(self, x: int, y: int) -> int:
         """Returns the value at x,y."""
         row = self._grid[y]
         return int(row[x])
 
-    def options_at(self, x: int, y: int) -> Iterable[int]:
+    def options_at(self, x: int, y: int) -> Sequence[int]:
         """Returns all possible values (options) at x,y."""
 
         # Get the index of the block based from x,y
@@ -63,26 +59,28 @@ class Sudoku:
         If there is no empty spot, returns (-1,-1)
         """
         for y in range(9):
-            for x in range(9):
-                if self.value_at(x, y) == 0:
-                    return x, y
+                for x in range(9):
+                    if self.value_at(x, y) == 0:
+                        return x, y
 
         return -1, -1
 
-    def row_values(self, i: int) -> Iterable[int]:
+    def row_values(self, i: int) -> Sequence[int]:
         """Returns all values at i-th row."""
+        values = []
 
         return list(map(int, self._grid[i]))
 
-    def column_values(self, i: int) -> Iterable[int]:
+    def column_values(self, i: int) -> Sequence[int]:
         """Returns all values at i-th column."""
         values = []
+
         for j in range(9):
             values.append(self.value_at(i, j))
 
         return values
 
-    def block_values(self, i: int) -> Iterable[int]:
+    def block_values(self, i: int) -> Sequence[int]:
         """
         Returns all values at i-th block.
         The blocks are arranged as follows:
@@ -107,11 +105,11 @@ class Sudoku:
         only the numbers 1 through 9. False otherwise.
         """
         for i in range(9):
-            if len(set(self.column_values(i))) != 9:
+            if (set(self.column_values(i))) - {1, 2, 3, 4, 5, 6, 7, 8, 9}:
                 return False
-            if len(set(self.row_values(i))) != 9:
+            if (set(self.row_values(i))) - {1, 2, 3, 4, 5, 6, 7, 8, 9}:
                 return False
-            if len(set(self.block_values(i))) != 9:
+            if (set(self.block_values(i))) - {1, 2, 3, 4, 5, 6, 7, 8, 9}:
                 return False
 
         return True
@@ -127,7 +125,7 @@ class Sudoku:
 
 def load_from_file(filename: str) -> Sudoku:
     """Load a Sudoku from filename."""
-    puzzle: list[str] = []
+    puzzle = []
 
     with open(filename) as f:
         for line in f:
