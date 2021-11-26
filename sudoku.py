@@ -1,3 +1,11 @@
+########/
+# Ariella Hiele
+#
+# Minor Programmeren
+#
+# A program that solves a sudoku, if used in combination with solve.py. 
+########/
+
 from __future__ import annotations
 from typing import Iterable, Sequence
 
